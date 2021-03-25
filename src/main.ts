@@ -7,9 +7,19 @@ import createWizard from './scenes/createScene'
 if (process.env.BOT_TOKEN === undefined) throw new Error('Bot token is undefined')
 const bot = new Telegraf<Scenes.WizardContext>(process.env.BOT_TOKEN)
 const stage = new Scenes.Stage<Scenes.WizardContext>([createWizard])
+
 bot.use(session())
 bot.use(stage.middleware())
+bot.start(ctx => {
+  ctx.reply('Thank you for using Stella!')
+})
+bot.help(ctx => {
+  ctx.reply('Help message')
+})
 bot.command('create', ctx => ctx.scene.enter('create-wizard'))
+bot.command('list', ctx => ctx.scene.enter('create-wizard'))
+bot.command('edit', ctx => ctx.scene.enter('create-wizard'))
+bot.command('delete', ctx => ctx.scene.enter('create-wizard'))
 
 // const helpMessage = `/help - Display help message
 // /create - Create event
@@ -36,6 +46,6 @@ bot.command('create', ctx => ctx.scene.enter('create-wizard'))
 // bot.command('delete', ctx => {})
 
 // launch or stop gracefully
-bot.launch().then(() => console.log('Bot started'))
+bot.launch().then(() => console.log(`Stella started`))
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
