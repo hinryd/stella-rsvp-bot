@@ -1,51 +1,17 @@
 import './utils/env'
+import './server'
 // import Event from './utils/mongoose'
 // import redis from './utils/ioredis'
-import { Telegraf, Scenes, session } from 'telegraf'
-import createWizard from './scenes/createScene'
+import TeleBot from 'telebot'
 
-if (process.env.BOT_TOKEN === undefined) throw new Error('Bot token is undefined')
-const bot = new Telegraf<Scenes.WizardContext>(process.env.BOT_TOKEN)
-const stage = new Scenes.Stage<Scenes.WizardContext>([createWizard])
-
-bot.use(session())
-bot.use(stage.middleware())
-bot.start(ctx => {
-  ctx.reply('Thank you for using Stella!')
+if (process.env.BOT_TOKEN === undefined) throw new Error('Bot token is required')
+const bot = new TeleBot({
+  token: process.env.BOT_TOKEN,
 })
-bot.help(ctx => {
-  ctx.reply('Help message')
-})
-bot.command('create', ctx => ctx.scene.enter('create-wizard'))
-bot.command('list', ctx => ctx.scene.enter('create-wizard'))
-bot.command('edit', ctx => ctx.scene.enter('create-wizard'))
-bot.command('delete', ctx => ctx.scene.enter('create-wizard'))
 
-// const helpMessage = `/help - Display help message
-// /create - Create event
-// /list - List events
-// /edit - Edit event
-// /delete - Delete event`
-
-// bot.start(ctx => {
-//   ctx.reply(helpMessage)
-// })
-// bot.help(ctx => {
-//   ctx.reply(helpMessage)
-// })
-// bot.command('list', ctx => {
-//   if (ctx.chat.type === 'private') {
-//     // list all event created by this user
-//     ctx.reply('listing all events that you created')
-//   } else {
-//     // list all event in this group
-//     ctx.reply('listing all events in this group')
-//   }
-// })
-// bot.command('edit', ctx => {})
-// bot.command('delete', ctx => {})
+bot.on('text', msg => msg.reply.text(msg.text))
 
 // launch or stop gracefully
-bot.launch().then(() => console.log(`Stella started`))
+bot.start()
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
