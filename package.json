@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/main.js",
+    "start-web": "node dist/server.js",
+    "start-bot": "node dist/main.js",
     "deploy": "tsc && node dist/main.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"

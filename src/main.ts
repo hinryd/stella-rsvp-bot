@@ -1,5 +1,4 @@
 import './utils/env'
-import './server'
 // import Event from './utils/mongoose'
 // import redis from './utils/ioredis'
 import TeleBot from 'telebot'
