@@ -1,16 +1,24 @@
 import './utils/env'
-// import Event from './utils/mongoose'
-// import redis from './utils/ioredis'
-import TeleBot from 'telebot'
+import supabase from './utils/db'
+import bot from './utils/bot'
+// import { DateTime } from 'luxon'
 
-if (process.env.BOT_TOKEN === undefined) throw new Error('Bot token is required')
-const bot = new TeleBot({
-  token: process.env.BOT_TOKEN,
+bot.start(ctx => ctx.reply('Thank you for using Stella! Type /help for more information.'))
+
+bot.help(ctx => ctx.reply('Under construction'))
+
+bot.command('create', ctx => ctx.scene.enter('EVENT_CREATOR'))
+
+bot.command('list', async ctx => {
+  const { data, error } = await supabase.from('events').select()
+  if (error) ctx.reply(JSON.stringify(error))
+  else data?.map(event => ctx.reply(JSON.stringify(event)))
 })
 
-bot.on('text', msg => msg.reply.text(msg.text))
+bot.command('delete', async ctx => {
+  const { data, error } = await supabase.from('event').delete()
+  if (error) ctx.reply(JSON.stringify(error))
+  else ctx.reply('Event deleted')
+})
 
-// launch or stop gracefully
-bot.start()
-process.once('SIGINT', () => bot.stop('SIGINT'))
-process.once('SIGTERM', () => bot.stop('SIGTERM'))
+bot.launch().then(() => console.log('[Stella] Bot started'))
