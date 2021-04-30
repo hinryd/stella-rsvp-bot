@@ -1,6 +1,7 @@
 import { Telegraf, Scenes, Context } from 'telegraf'
 import RedisSession from 'telegraf-session-redis'
-import eventCreator, { EventCreatorSession } from '../scenes/eventCreator'
+import eventCreator, { EventCreatorSession } from '../scene/eventCreator'
+import isPrivateChat from '../middleware/isPrivateChat'
 
 export interface BotCtx extends Context {
   session: EventCreatorSession // extending session object
@@ -13,12 +14,17 @@ const bot = new Telegraf<BotCtx>(process.env.BOT_TOKEN)
 
 const session = new RedisSession({
   store: {
-    host: process.env.TELEGRAM_SESSION_HOST || '127.0.0.1',
-    port: process.env.TELEGRAM_SESSION_PORT || 6379,
+    host: process.env.REDIS_HOST || '127.0.0.1',
+    port: process.env.REDIS_PORT || 6379,
   },
+  ttl: 120,
 })
-bot.use(session)
+
 const stage = new Scenes.Stage<BotCtx>([eventCreator])
+
+// middleware
+bot.use(isPrivateChat())
+bot.use(session)
 bot.use(stage.middleware())
 
 // Enable graceful stop
