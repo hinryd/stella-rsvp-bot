@@ -1,6 +1,6 @@
 import { Scenes } from 'telegraf'
-import supabase from '../utils/db'
 import { BotCtx } from '../utils/bot'
+import supabase from '../utils/db'
 
 export interface EventCreatorSession extends Scenes.WizardSession {
   state: {
@@ -12,12 +12,14 @@ export interface EventCreatorSession extends Scenes.WizardSession {
 const eventCreator = new Scenes.WizardScene<BotCtx>(
   'EVENT_CREATOR',
   async ctx => {
+    ctx.session.state = { event_desc: 'hello', event_date: new Date() }
     await ctx.reply('Step 1: Enter description for your event')
     return ctx.wizard.next()
   },
   async ctx => {
-    if (!ctx.message) return
-    ctx.session.state.event_desc = ctx.message
+    if (ctx.message === undefined) return await ctx.scene.leave()
+    if (!('text' in ctx.message)) return await ctx.scene.leave()
+    ctx.session.state.event_desc = ctx.message.text
     await ctx.reply('Step 2: Enter date for your event')
     return ctx.wizard.next()
   },

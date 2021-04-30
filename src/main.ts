@@ -7,9 +7,13 @@ bot.start(ctx => ctx.reply('Thank you for using Stella! Type /help for more info
 
 bot.help(ctx => ctx.reply('Under construction'))
 
-bot.command('create', ctx => ctx.scene.enter('EVENT_CREATOR'))
+bot.command('create', ctx => {
+  ctx.scene.enter('EVENT_CREATOR')
+})
 
 bot.command('list', async ctx => {
+  if (ctx.message.chat.type === 'private') return
+
   const { data, error } = await supabase.from('events').select()
   if (error) ctx.reply(JSON.stringify(error))
   else data?.map(event => ctx.reply(JSON.stringify(event)))
