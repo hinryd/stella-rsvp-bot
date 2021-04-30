@@ -1,5 +1,5 @@
 import { Middleware } from 'telegraf'
-import { BotCtx } from '../utils/bot'
+import BotCtx from '../bot/BotCtx.interface'
 
 const isPrivateChat = (): Middleware<BotCtx> => (ctx, next) => {
   if (ctx.message?.chat.type === 'private') return

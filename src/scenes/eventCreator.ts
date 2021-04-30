@@ -1,6 +1,6 @@
 import { Scenes } from 'telegraf'
-import { BotCtx } from '../utils/bot'
-import supabase from '../utils/db'
+import BotCtx from '../bot/BotCtx.interface'
+import supabase from '../utils/supabase'
 
 export interface EventCreatorSession extends Scenes.WizardSession {
   state: {
