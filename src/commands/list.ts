@@ -25,7 +25,7 @@ const list = async (ctx: BotCtx) => {
         Markup.inlineKeyboard([
           Markup.button.callback('yes', `yes:${event.event_id}`),
           Markup.button.callback('maybe', `maybe:${event.event_id}`),
-          Markup.button.callback('+1', `addOne:${event.event_id}`),
+          // Markup.button.callback('+1', `addOne:${event.event_id}`),
         ])
       )
     })
