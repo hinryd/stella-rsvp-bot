@@ -89,7 +89,7 @@ const responseHandler = async (ctx: ResCtx) => {
     Markup.inlineKeyboard([
       Markup.button.callback('yes', `yes:${eventData.data[0].event_id}`),
       Markup.button.callback('maybe', `maybe:${eventData.data[0].event_id}`),
-      Markup.button.callback('+1', `addOne:${eventData.data[0].event_id}`),
+      // Markup.button.callback('+1', `addOne:${eventData.data[0].event_id}`),
     ])
   )
 }
