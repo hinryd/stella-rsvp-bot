@@ -7,6 +7,8 @@ specifiers:
   dotenv: ^8.2.0
   luxon: ^1.26.0
   nodemon: ^2.0.7
+  sugar: ^2.0.6
+  sugar-date: ^2.0.6
   telegraf: ^4.3.0
   telegraf-session-redis: ^5.1.0
   ts-node: ^9.1.1
@@ -16,6 +18,8 @@ dependencies:
   '@supabase/supabase-js': 1.11.8
   dotenv: 8.2.0
   luxon: 1.26.0
+  sugar: 2.0.6
+  sugar-date: 2.0.6
   telegraf: 4.3.0
   telegraf-session-redis: 5.1.0_telegraf@4.3.0
 
@@ -909,6 +913,25 @@ packages:
     resolution: {integrity: sha1-PFMZQukIwml8DsNEhYwobHygpgo=}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /sugar-core/2.0.6:
+    resolution: {integrity: sha512-YmLFysR3Si6RImqL1+aB6JH81EXxvXn5iXhPf2PsjfoUYEwCxFDYCQY+zC3WqviuGWzxFaSkkJvkUE05Y03L5Q==}
+    engines: {node: '>= 0.8.23'}
+    dev: false
+
+  /sugar-date/2.0.6:
+    resolution: {integrity: sha512-5aPXcTl9pIgae3j8wOieRZOEbaowHHpL+MPgZwHHjXdhZz3FjzpacjzM+Aq7rZTjDsWyWuKHzkIALx2uUhnmyg==}
+    engines: {node: '>= 0.8.23'}
+    dependencies:
+      sugar-core: 2.0.6
+    dev: false
+
+  /sugar/2.0.6:
+    resolution: {integrity: sha512-s0P2/pjJtAD9VA44+2Gqm3NdC4v+08melA6YubOxzshu628krTbn95/M2GWMrI9rYspZMpYBIrChR46fjQ7xsQ==}
+    engines: {node: '>= 0.8.23'}
+    dependencies:
+      sugar-core: 2.0.6
+    dev: false
 
   /supports-color/5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
