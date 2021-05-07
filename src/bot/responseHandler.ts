@@ -84,14 +84,16 @@ const responseHandler = async (ctx: ResCtx) => {
   if (eventData.data === null) throw 'Error'
   if (responsesData.data === null) throw 'Error'
 
-  return ctx.editMessageText(
-    printEvent(eventData.data[0].event_desc, responsesData.data, eventData.data[0].event_date),
-    Markup.inlineKeyboard([
-      Markup.button.callback('yes', `yes:${eventData.data[0].event_id}`),
-      Markup.button.callback('maybe', `maybe:${eventData.data[0].event_id}`),
-      // Markup.button.callback('+1', `addOne:${eventData.data[0].event_id}`),
-    ])
-  )
+  return ctx
+    .editMessageText(
+      printEvent(eventData.data[0].event_desc, responsesData.data, eventData.data[0].event_date),
+      Markup.inlineKeyboard([
+        Markup.button.callback('yes', `yes:${eventData.data[0].event_id}`),
+        Markup.button.callback('maybe', `maybe:${eventData.data[0].event_id}`),
+        // Markup.button.callback('+1', `addOne:${eventData.data[0].event_id}`),
+      ])
+    )
+    .catch(err => console.log(err))
 }
 
 export default responseHandler
