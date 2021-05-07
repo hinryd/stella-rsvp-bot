@@ -44,7 +44,15 @@ const eventCreator = new Scenes.WizardScene<BotCtx>(
         })
         .then(
           async (res: { data: any }) =>
-            await ctx.reply(printEvent(res.data[0].event_desc, [], res.data[0].event_date))
+            await ctx.reply(
+              printEvent(res.data[0].event_desc, [], res.data[0].event_date),
+              Markup.inlineKeyboard([
+                Markup.button.callback('yes', `yes:${res.data[0].event_id}`),
+                Markup.button.callback('maybe', `maybe:${res.data[0].event_id}`),
+                Markup.button.callback('no', `no:${res.data[0].event_id}`),
+                // Markup.button.callback('+1', `addOne:${event.event_id}`),
+              ])
+            )
         )
     } else {
       await ctx.reply(JSON.stringify(error))
