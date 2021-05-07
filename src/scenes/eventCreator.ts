@@ -1,36 +1,55 @@
-import { Scenes } from 'telegraf'
+import { Scenes, Markup } from 'telegraf'
 import BotCtx from '../bot/BotCtx.interface'
 import supabase from '../utils/supabase'
+import { Date } from 'sugar'
+import printEvent from '../bot/printEvent'
 
 export interface EventCreatorSession extends Scenes.WizardSession {
   state: {
-    event_desc: any
-    event_date: Date
+    event_desc: string
+    event_date: any
   }
 }
 
 const eventCreator = new Scenes.WizardScene<BotCtx>(
   'EVENT_CREATOR',
   async ctx => {
-    ctx.session.state = { event_desc: 'hello', event_date: new Date() }
-    await ctx.reply('Step 1: Enter description for your event')
+    ctx.session.state = { event_desc: '', event_date: new Date() }
+    await ctx.reply('Step 1: Enter description for your event', Markup.forceReply())
     return ctx.wizard.next()
   },
   async ctx => {
-    if (ctx.message === undefined) return await ctx.scene.leave()
-    if (!('text' in ctx.message)) return await ctx.scene.leave()
+    if (ctx.message === undefined || !('text' in ctx.message))
+      throw new Error('Missing ctx.message')
     ctx.session.state.event_desc = ctx.message.text
-    await ctx.reply('Step 2: Enter date for your event')
+    await ctx.reply('Step 2: Enter date for your event', Markup.forceReply())
     return ctx.wizard.next()
   },
   async ctx => {
-    ctx.session.state.event_date = new Date()
-    ctx.reply(JSON.stringify(ctx.session))
-    // const { data, error } = await supabase
-    //   .from('event')
-    //   .insert([{ event_desc: ctx.session.event_desc, event_date: ctx.session.event_date }])
-    // if (error) await ctx.reply(JSON.stringify(error))
-    // else await ctx.reply('Event created successfully')
+    if (ctx.message === undefined || !('text' in ctx.message))
+      throw new Error('Missing ctx.message')
+
+    const eventDate = Date.create(ctx.message.text)
+    ctx.session.state.event_date = eventDate
+
+    const { error } = await supabase.from('groups').upsert({ group_id: ctx.message.chat.id })
+
+    if (!error) {
+      await supabase
+        .from('events')
+        .upsert({
+          group_id: ctx.message?.chat.id,
+          event_desc: ctx.session.state.event_desc,
+          event_date: ctx.session.state.event_date,
+        })
+        .then(
+          async (res: { data: any }) =>
+            await ctx.reply(printEvent(res.data[0].event_desc, [], res.data[0].event_date))
+        )
+    } else {
+      await ctx.reply(JSON.stringify(error))
+    }
+
     return await ctx.scene.leave()
   }
 )
