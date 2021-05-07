@@ -6,6 +6,7 @@ import stage from './stage'
 import responseHandler from './responseHandler'
 import create from '../commands/create'
 import list from '../commands/list'
+import edit from '../commands/edit'
 import del from '../commands/del'
 
 if (process.env.BOT_TOKEN === undefined) throw new Error('BOT_TOKEN is required')
@@ -23,6 +24,7 @@ bot.use(stage.middleware())
 // commands
 bot.command('create', create)
 bot.command('list', list)
+bot.command('edit', edit)
 bot.command('del', del)
 
 // actions

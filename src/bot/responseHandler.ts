@@ -53,6 +53,20 @@ const responseHandler = async (ctx: ResCtx) => {
     case 'del':
       await supabase.from('events').delete().match({ event_id })
       return ctx.editMessageText(`Event ${event_id} has been deleted`)
+    case 'edit':
+      const { data, error } = <{ data: any; error: any }>(
+        await supabase
+          .from('events')
+          .select('event_id, event_desc, event_date, updated_at')
+          .match({ event_id })
+      )
+      ctx.reply(printEvent(data[0].event_desc, [], data[0].event_date))
+      ctx.session.state = {
+        event_id,
+        event_desc: data[0].event_desc,
+        event_date: data[0].event_date,
+      }
+      return ctx.scene.enter('EVENT_EDITOR')
     default:
       break
   }
