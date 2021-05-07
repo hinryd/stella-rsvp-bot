@@ -50,6 +50,12 @@ const responseHandler = async (ctx: ResCtx) => {
         append: 1,
       })
       break
+    case 'no':
+      await supabase.from('responses').delete().match({
+        event_id,
+        user_id: id,
+      })
+      break
     case 'del':
       await supabase.from('events').delete().match({ event_id })
       return ctx.editMessageText(`Event ${event_id} has been deleted`)
@@ -90,6 +96,7 @@ const responseHandler = async (ctx: ResCtx) => {
       Markup.inlineKeyboard([
         Markup.button.callback('yes', `yes:${eventData.data[0].event_id}`),
         Markup.button.callback('maybe', `maybe:${eventData.data[0].event_id}`),
+        Markup.button.callback('no', `no:${eventData.data[0].event_id}`),
         // Markup.button.callback('+1', `addOne:${eventData.data[0].event_id}`),
       ])
     )
