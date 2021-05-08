@@ -30,7 +30,7 @@ const eventEditor = new Scenes.WizardScene<BotCtx>(
       throw new Error('Missing ctx.message')
 
     const eventDate = Date.create(ctx.message.text)
-    ctx.session.state.event_date = eventDate
+    ctx.session.state.event_date = eventDate ? eventDate : new Date()
 
     await supabase
       .from('events')
