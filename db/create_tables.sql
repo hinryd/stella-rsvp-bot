@@ -6,7 +6,7 @@ CREATE TABLE public.events (
     group_id BIGINT NOT NULL,
     event_id uuid NOT NULL primary key DEFAULT uuid_generate_v4(), 
     event_desc character varying NOT NULL,
-    event_date date NOT NULL,
+    event_date timestamp NOT NULL,
     updated_at date DEFAULT now() NOT NULL,
 	FOREIGN key (group_id) REFERENCES groups(group_id) on delete CASCADE
 );
