@@ -12,10 +12,11 @@ interface ResCtx extends BotCtx {
 }
 
 const responseHandler = async (ctx: ResCtx) => {
-  // receiving '':'' as input
+  // receiving ''|'' as input
   const { id, first_name, username } = ctx.update.callback_query.from
   const msg = ctx.update.callback_query.message?.message_id
   const [input, command, event_id] = ctx.match
+  console.log('ERROR: INPUT', ctx.match)
 
   await supabase
     .from('users')
@@ -94,9 +95,9 @@ const responseHandler = async (ctx: ResCtx) => {
     .editMessageText(
       printEvent(eventData.data[0].event_desc, responsesData.data, eventData.data[0].event_date),
       Markup.inlineKeyboard([
-        Markup.button.callback('yes', `yes:${eventData.data[0].event_id}`),
-        Markup.button.callback('maybe', `maybe:${eventData.data[0].event_id}`),
-        Markup.button.callback('no', `no:${eventData.data[0].event_id}`),
+        Markup.button.callback('yes', `yes|${eventData.data[0].event_id}`),
+        Markup.button.callback('maybe', `maybe|${eventData.data[0].event_id}`),
+        Markup.button.callback('no', `no|${eventData.data[0].event_id}`),
         // Markup.button.callback('+1', `addOne:${eventData.data[0].event_id}`),
       ])
     )

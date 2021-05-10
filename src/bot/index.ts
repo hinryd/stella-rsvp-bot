@@ -28,7 +28,7 @@ bot.command('edit', edit)
 bot.command('del', del)
 
 // actions
-bot.action(/(.+):(.+)/, responseHandler)
+bot.action(/(.+)\|(.+)/, responseHandler)
 
 // Start bot
 bot.launch().then(() => console.log('[Stella] Bot started'))

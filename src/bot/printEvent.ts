@@ -1,8 +1,8 @@
-import { DateTime } from 'luxon'
+import { Date } from 'sugar'
 
 const printEvent = (desc: string, responses: any[], date: string) => {
   return `${desc}
-Date: ${DateTime.fromISO(date).toFormat('yyyy-LLL-d (ccc) HH:mm')}
+Date: ${Date(date).full()}
 
 ${responses
   .map((res, idx) => `${idx + 1}. ${res.nickname}${res.confirmed ? '' : ' (tbc)'}`)
