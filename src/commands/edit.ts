@@ -9,16 +9,18 @@ const edit = async (ctx: BotCtx) => {
     .eq('group_id', ctx.message?.chat.id)
 
   if (error) {
-    ctx.reply(JSON.stringify(error))
+    await ctx.reply(JSON.stringify(error))
   } else if (data !== null) {
-    ctx.reply(
-      'Select an event to edit',
-      Markup.inlineKeyboard(
-        data.map(event => {
-          return [Markup.button.callback(event.event_desc, `edit:${event.event_id}`)]
-        })
+    await ctx
+      .reply(
+        'Select an event to edit',
+        Markup.inlineKeyboard(
+          data.map(event => {
+            return [Markup.button.callback(event.event_desc, `edit|${event.event_id}`)]
+          })
+        )
       )
-    )
+      .catch(err => console.log(err))
   }
 }
 

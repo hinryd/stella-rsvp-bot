@@ -23,9 +23,9 @@ const list = async (ctx: BotCtx) => {
       ctx.reply(
         printEvent(event.event_desc, data, event.event_date),
         Markup.inlineKeyboard([
-          Markup.button.callback('yes', `yes:${event.event_id}`),
-          Markup.button.callback('maybe', `maybe:${event.event_id}`),
-          Markup.button.callback('no', `no:${event.event_id}`),
+          Markup.button.callback('yes', `yes|${event.event_id}`),
+          Markup.button.callback('maybe', `maybe|${event.event_id}`),
+          Markup.button.callback('no', `no|${event.event_id}`),
           // Markup.button.callback('+1', `addOne:${event.event_id}`),
         ])
       )

@@ -15,14 +15,14 @@ export interface EventEditorSession extends Scenes.WizardSession {
 const eventEditor = new Scenes.WizardScene<BotCtx>(
   'EVENT_EDITOR',
   async ctx => {
-    await ctx.reply('Step 1: Enter description for your event', Markup.forceReply())
+    await ctx.reply('Step 1: Enter description for your event', Markup.forceReply().selective())
     return ctx.wizard.next()
   },
   async ctx => {
     if (ctx.message === undefined || !('text' in ctx.message))
       throw new Error('Missing ctx.message')
     ctx.session.state.event_desc = ctx.message.text
-    await ctx.reply('Step 2: Enter date for your event', Markup.forceReply())
+    await ctx.reply('Step 2: Enter date for your event', Markup.forceReply().selective())
     return ctx.wizard.next()
   },
   async ctx => {
@@ -48,7 +48,13 @@ const eventEditor = new Scenes.WizardScene<BotCtx>(
             res.data[0].event_desc,
             responsesData.data ? responsesData.data : [],
             res.data[0].event_date
-          )
+          ),
+          Markup.inlineKeyboard([
+            Markup.button.callback('yes', `yes|${res.data[0].event_id}`),
+            Markup.button.callback('maybe', `maybe|${res.data[0].event_id}`),
+            Markup.button.callback('no', `no|${res.data[0].event_id}`),
+            // Markup.button.callback('+1', `addOne:${event.event_id}`),
+          ])
         )
       })
 
