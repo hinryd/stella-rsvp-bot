@@ -15,6 +15,7 @@ specifiers:
   telegraf: ^4.3.0
   telegraf-session-redis: ^5.1.0
   ts-node: ^9.1.1
+  tslib: ^2.2.0
   typescript: ^4.2.3
 
 dependencies:
@@ -28,12 +29,13 @@ dependencies:
 
 devDependencies:
   '@ampproject/rollup-plugin-closure-compiler': 0.26.0_rollup@2.47.0
-  '@rollup/plugin-typescript': 8.2.1_rollup@2.47.0+typescript@4.2.4
+  '@rollup/plugin-typescript': 8.2.1_810b5a6d1c7477a73baaceebd2991e4b
   '@types/luxon': 1.26.5
   '@types/node': 14.14.43
   nodemon: 2.0.7
   rollup: 2.47.0
   ts-node: 9.1.1_typescript@4.2.4
+  tslib: 2.2.0
   typescript: 4.2.4
 
 packages:
@@ -67,7 +69,7 @@ packages:
     engines: {node: '>=6.0.0'}
     dev: true
 
-  /@rollup/plugin-typescript/8.2.1_rollup@2.47.0+typescript@4.2.4:
+  /@rollup/plugin-typescript/8.2.1_810b5a6d1c7477a73baaceebd2991e4b:
     resolution: {integrity: sha512-Qd2E1pleDR4bwyFxqbjt4eJf+wB0UKVMLc7/BAFDGVdAXQMCsD4DUv5/7/ww47BZCYxWtJqe1Lo0KVNswBJlRw==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
@@ -78,6 +80,7 @@ packages:
       '@rollup/pluginutils': 3.1.0_rollup@2.47.0
       resolve: 1.20.0
       rollup: 2.47.0
+      tslib: 2.2.0
       typescript: 4.2.4
     dev: true
 
@@ -1298,6 +1301,10 @@ packages:
       source-map-support: 0.5.19
       typescript: 4.2.4
       yn: 3.1.1
+    dev: true
+
+  /tslib/2.2.0:
+    resolution: {integrity: sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==}
     dev: true
 
   /type-fest/0.8.1:
