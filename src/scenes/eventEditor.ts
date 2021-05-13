@@ -15,21 +15,25 @@ export interface EventEditorSession extends Scenes.WizardSession {
 const eventEditor = new Scenes.WizardScene<BotCtx>(
   'EVENT_EDITOR',
   async ctx => {
-    await ctx.reply('Step 1: Enter description for your event', Markup.forceReply().selective())
+    await ctx
+      .reply('Step 1: Enter description for your event', Markup.forceReply().selective())
+      .catch(err => console.log(err))
     return ctx.wizard.next()
   },
   async ctx => {
     if (ctx.message === undefined || !('text' in ctx.message))
       throw new Error('Missing ctx.message')
     ctx.session.state.event_desc = ctx.message.text
-    await ctx.reply('Step 2: Enter date for your event', Markup.forceReply().selective())
+    await ctx
+      .reply('Step 2: Enter date for your event', Markup.forceReply().selective())
+      .catch(err => console.log(err))
     return ctx.wizard.next()
   },
   async ctx => {
     if (ctx.message === undefined || !('text' in ctx.message))
       throw new Error('Missing ctx.message')
 
-    const eventDate = Date.create(ctx.message.text)
+    const eventDate = Date.create(ctx.message.text, { fromUTC: true })
     ctx.session.state.event_date = eventDate ? eventDate : new Date()
 
     await supabase
