@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "build": "tsc",
+    "build": "rollup -c",
     "start": "node dist/main.js",
     "deploy": "tsc && node dist/main.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/main.ts",
@@ -13,9 +13,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
+    "@rollup/plugin-typescript": "^8.2.1",
     "@types/luxon": "^1.26.3",
     "@types/node": "^14.14.41",
     "nodemon": "^2.0.7",
+    "rollup": "^2.47.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
   },
