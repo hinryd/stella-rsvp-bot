@@ -15,9 +15,11 @@ export interface EventCreatorSession extends Scenes.WizardSession {
 const eventCreator = new Scenes.WizardScene<BotCtx>(
   'EVENT_CREATOR',
   async (ctx) => {
-    ctx.session.state.event_desc = ''
-    ctx.session.state.event_date = new Date()
-    ctx.session.state.messages = []
+    ctx.session.state = {
+      event_desc: '',
+      event_date: new Date(),
+      messages: []
+    }
     const message = await ctx
       .reply(
         '[1/2] Reply this message to set your event description',
