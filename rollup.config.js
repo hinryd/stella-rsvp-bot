@@ -2,7 +2,7 @@ import typescript from '@rollup/plugin-typescript'
 import compiler from '@ampproject/rollup-plugin-closure-compiler'
 
 export default {
-  input: 'src/main.ts',
+  input: 'src/index.ts',
   output: {
     dir: 'dist',
     format: 'cjs',
