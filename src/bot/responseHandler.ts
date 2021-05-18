@@ -30,36 +30,41 @@ const responseHandler = async (ctx: ResCtx) => {
           event_id,
           user_id: id,
           nickname: first_name,
-          confirmed: true,
+          confirmed: true
         })
-        .then(res => console.log(res))
+        .then((res) => console.log(res))
       break
+
     case 'maybe':
       await supabase.from('responses').upsert({
         event_id,
         user_id: id,
         nickname: first_name,
-        confirmed: false,
+        confirmed: false
       })
       break
+
     case 'addOne':
       await supabase.from('responses').upsert({
         event_id,
         user_id: id,
         nickname: first_name,
         confirmed: true,
-        append: 1,
+        append: 1
       })
       break
+
     case 'no':
       await supabase.from('responses').delete().match({
         event_id,
-        user_id: id,
+        user_id: id
       })
       break
+
     case 'del':
       await supabase.from('events').delete().match({ event_id })
       return ctx.editMessageText(`Event ${event_id} has been deleted`)
+
     case 'edit':
       const { data, error } = <{ data: any; error: any }>(
         await supabase
@@ -67,13 +72,18 @@ const responseHandler = async (ctx: ResCtx) => {
           .select('event_id, event_desc, event_date, updated_at')
           .match({ event_id })
       )
-      ctx.reply(printEvent(data[0].event_desc, [], data[0].event_date))
-      ctx.session.state = {
-        event_id,
-        event_desc: data[0].event_desc,
-        event_date: data[0].event_date,
+      if (!error) {
+        ctx.session.state = {
+          messages: [await ctx.reply(printEvent(data[0].event_desc, [], data[0].event_date))],
+          event_id,
+          event_desc: data[0].event_desc,
+          event_date: data[0].event_date
+        }
+        return ctx.scene.enter('EVENT_EDITOR')
+      } else {
+        console.error(error)
       }
-      return ctx.scene.enter('EVENT_EDITOR')
+
     default:
       break
   }
@@ -97,11 +107,11 @@ const responseHandler = async (ctx: ResCtx) => {
       Markup.inlineKeyboard([
         Markup.button.callback('yes', `yes|${eventData.data[0].event_id}`),
         Markup.button.callback('maybe', `maybe|${eventData.data[0].event_id}`),
-        Markup.button.callback('no', `no|${eventData.data[0].event_id}`),
+        Markup.button.callback('no', `no|${eventData.data[0].event_id}`)
         // Markup.button.callback('+1', `addOne:${eventData.data[0].event_id}`),
       ])
     )
-    .catch(err => console.log(err))
+    .catch((err) => console.log(err))
 }
 
 export default responseHandler
