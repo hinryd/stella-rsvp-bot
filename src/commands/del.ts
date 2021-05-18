@@ -16,7 +16,7 @@ const del = async (ctx: BotCtx) => {
       'Select an event to delete',
       Markup.inlineKeyboard(
         data.map(event => {
-          return [Markup.button.callback(event.event_desc, `del:${event.event_id}`)]
+          return [Markup.button.callback(event.event_desc, `del|${event.event_id}`)]
         })
       )
     )
