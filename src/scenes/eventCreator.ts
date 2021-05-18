@@ -13,23 +13,29 @@ export interface EventCreatorSession extends Scenes.WizardSession {
 
 const eventCreator = new Scenes.WizardScene<BotCtx>(
   'EVENT_CREATOR',
-  async ctx => {
+  async (ctx) => {
     ctx.session.state = { event_desc: '', event_date: new Date() }
     await ctx
-      .reply('Step 1: Enter description for your event', Markup.forceReply().selective())
-      .catch(err => console.log(err))
+      .reply(
+        '[1/2] Reply this message to set your event description',
+        Markup.forceReply().selective(),
+      )
+      .catch((err) => console.log(err))
     return ctx.wizard.next()
   },
-  async ctx => {
+  async (ctx) => {
     if (ctx.message === undefined || !('text' in ctx.message))
       throw new Error('Missing ctx.message')
     ctx.session.state.event_desc = ctx.message.text
     await ctx
-      .reply('Step 2: Enter date for your event', Markup.forceReply().selective())
-      .catch(err => console.log(err))
+      .reply(
+        `[2/2] Reply this message to set your event date and time, e.g. 'tomorrow 2 pm' or 'june 26 17:00'`,
+        Markup.forceReply().selective(),
+      )
+      .catch((err) => console.log(err))
     return ctx.wizard.next()
   },
-  async ctx => {
+  async (ctx) => {
     if (ctx.message === undefined || !('text' in ctx.message))
       throw new Error('Missing ctx.message')
 
@@ -56,16 +62,16 @@ const eventCreator = new Scenes.WizardScene<BotCtx>(
                   Markup.button.callback('maybe', `maybe|${res.data[0].event_id}`),
                   Markup.button.callback('no', `no|${res.data[0].event_id}`),
                   // Markup.button.callback('+1', `addOne:${event.event_id}`),
-                ])
+                ]),
               )
-              .catch(err => console.log(err))
+              .catch((err) => console.log(err)),
         )
     } else {
       await ctx.reply(JSON.stringify(error))
     }
 
     return await ctx.scene.leave()
-  }
+  },
 )
 
 export default eventCreator
