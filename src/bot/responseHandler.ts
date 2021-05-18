@@ -16,7 +16,7 @@ const responseHandler = async (ctx: ResCtx) => {
   const { id, first_name, username } = ctx.update.callback_query.from
   const msg = ctx.update.callback_query.message?.message_id
   const [input, command, event_id] = ctx.match
-  console.log('ERROR: INPUT', ctx.match)
+  console.log('REQUEST FROM:', username, command, event_id)
 
   await supabase
     .from('users')
