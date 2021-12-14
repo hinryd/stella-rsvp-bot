@@ -10,11 +10,11 @@ module.exports = {
     'plugin:import/warnings',
     'plugin:import/typescript',
     'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint',
     'plugin:prettier/recommended'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
+    tsconfigRootDir: __dirname,
     project: ['tsconfig.json', 'tsconfig.dev.json'],
     sourceType: 'module'
   },
@@ -23,6 +23,6 @@ module.exports = {
   ],
   plugins: ['@typescript-eslint', 'import'],
   rules: {
-    quotes: ['error', 'double']
+    quotes: ['warning', 'double']
   }
 }
